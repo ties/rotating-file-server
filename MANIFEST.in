@@ -1,0 +1,4 @@
+include *.lock
+include *.yaml
+recursive-include tests *.gitkeep
+recursive-include tests *.py
