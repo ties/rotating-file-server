@@ -1,4 +1,10 @@
-include *.lock
-include *.yaml
-recursive-include tests *.gitkeep
-recursive-include tests *.py
+exclude config.yaml
+exclude MANIFEST.in
+exclude .pre-commit-config.yaml
+exclude .flake8
+exclude poetry.lock
+
+global-exclude .gitkeep .gitignore .DS_Store
+
+prune tests
+prune .github
