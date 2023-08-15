@@ -11,6 +11,7 @@ LOG = logging.getLogger(__name__)
 
 
 class Server:
+    """The simple webserver"""
     idx: int = 0
 
     def __init__(self, files: List[Path], port: int, random: bool):
@@ -18,17 +19,20 @@ class Server:
         self.port = port
         self.random = random
 
-    def run(self) -> None:
-        """Start the webserver"""
+    @property
+    def application(self) -> web.Application:
+        """Build the application"""
         app = web.Application()
         app.router.add_route("GET", "/{tail:.*}", self.serve_files)
 
-        web.run_app(app, port=self.port)
+        return app
+
+    def run(self) -> None:
+        """Start the webserver"""
+        web.run_app(self.application, port=self.port)
 
     async def serve_files(self, req: web.BaseRequest) -> web.Response:
         """Serve all the files in sequence"""
-        self.idx += 1
-
         if self.random:
             effective_file = self.files[random.randint(0, len(self.files) - 1)]
         else:
@@ -37,6 +41,9 @@ class Server:
         LOG.info(
             "Serving %s for idx=%d req=%s", effective_file.name, self.idx, req.path
         )
+        
+        self.idx += 1
+
         return web.FileResponse(effective_file)
 
 
