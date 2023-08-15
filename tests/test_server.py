@@ -4,6 +4,7 @@ import pytest
 
 from rotate_files.server import Server
 
+
 @pytest.mark.asyncio
 async def test_app(tmp_path: Path, aiohttp_client):
     """Integration test using pytest-aiohttp."""
@@ -21,15 +22,15 @@ async def test_app(tmp_path: Path, aiohttp_client):
     client = await aiohttp_client(subject.application)
 
     # first request
-    resp = await client.get('/json')
+    resp = await client.get("/json")
 
     assert resp.status == 200
     text = await resp.text()
-    assert 'First file.' in text
+    assert "First file." in text
 
     # second
-    resp = await client.get('/json')
+    resp = await client.get("/json")
 
     assert resp.status == 200
     text = await resp.text()
-    assert 'Second file.' in text
+    assert "Second file." in text

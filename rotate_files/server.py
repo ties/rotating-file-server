@@ -12,6 +12,7 @@ LOG = logging.getLogger(__name__)
 
 class Server:
     """The simple webserver"""
+
     idx: int = 0
 
     def __init__(self, files: List[Path], port: int, random: bool):
@@ -41,7 +42,7 @@ class Server:
         LOG.info(
             "Serving %s for idx=%d req=%s", effective_file.name, self.idx, req.path
         )
-        
+
         self.idx += 1
 
         return web.FileResponse(effective_file)
