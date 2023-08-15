@@ -1,0 +1,18 @@
+[tool.poetry]
+name = "rotate-files"
+version = "0.1.0"
+description = ""
+authors = ["Ties de Kock <ties@tiesdekock.nl>"]
+readme = "README.md"
+packages = [{include = "rotate_files"}]
+
+[tool.poetry.dependencies]
+python = "^3.11"
+PyYAML = "^6.0.1"
+click = "^8.1.6"
+aiohttp = "^3.8.5"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
