@@ -2,12 +2,11 @@ from pathlib import Path
 
 import pytest
 
-from aiohttp.test_utils import make_mocked_request
-
 from rotate_files.server import Server
 
 @pytest.mark.asyncio
 async def test_app(tmp_path: Path, aiohttp_client):
+    """Integration test using pytest-aiohttp."""
     f1 = tmp_path / "f1.txt"
     f2 = tmp_path / "f2.txt"
 

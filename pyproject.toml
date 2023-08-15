@@ -7,7 +7,7 @@ readme = "README.md"
 packages = [{include = "rotate_files"}]
 
 [tool.poetry.dependencies]
-python = "^3.11"
+python = "^3.10"
 PyYAML = "^6.0.1"
 click = "^8.1.6"
 aiohttp = "^3.8.5"
