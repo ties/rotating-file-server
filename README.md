@@ -33,3 +33,5 @@ poetry run python -m rotate_files --random
 
 ### 2024-03:
   * Added glob support
+  * `--config_file` option is now `--config`  
+

@@ -24,7 +24,7 @@ def expand_patterns(paths: Path | str) -> List[Path]:
                 res.extend(map(Path, glob.glob(p)))
 
     if len(res) < 100:
-        LOG.info("Effective files: %s", res)
+        LOG.debug("Effective files: %s", res)
     return res
 
 
@@ -69,16 +69,16 @@ class Server:
 
 
 @click.command()
-@click.option("--config_file", default="config.yaml", help="Config file to use")
+@click.option("--config", default="config.yaml", help="Config file to use", type=click.Path(path_type=Path))
 @click.option("--port", default=8080, help="Port to bind to")
 @click.option("--port", default=8080, help="Port to bind to")
 @click.option("--random/--in-order", default=False)
 @click.option("-v", "--verbose", count=True)
-def server_cli(config_file: Path, port: int, verbose: int, random: bool):
+def server_cli(config: Path, port: int, verbose: int, random: bool):
     """Start the webserver"""
     logging.basicConfig(level=logging.DEBUG if verbose > 0 else logging.INFO)
 
-    with open(config_file, "r", encoding="utf-8") as f:
+    with config.open("r", encoding="utf-8") as f:
         config = yaml.safe_load(f)
     LOG.info(config)
 
