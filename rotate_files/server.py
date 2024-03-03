@@ -1,3 +1,5 @@
+import glob
+import itertools
 import logging
 import random
 from pathlib import Path
@@ -9,16 +11,34 @@ from aiohttp import web
 
 LOG = logging.getLogger(__name__)
 
+def expand_patterns(paths: Path | str) -> List[Path]:
+    """Expand globs for the strings in a set of paths or strings"""
+    res = []
+
+    for input in paths:
+        LOG.debug("Processing input: %s", input)
+        match input:
+            case Path():
+                res.append(input)
+            case str(p):
+                res.extend(map(Path, glob.glob(p)))
+
+    if len(res) < 100:
+        LOG.info("Effective files: %s", res)
+    return res
+
 
 class Server:
     """The simple webserver"""
 
     idx: int = 0
+    files: List[Path]
+    random: bool
 
-    def __init__(self, files: List[Path], port: int, random: bool):
-        self.files = files
+    def __init__(self, files: List[str | Path], port: int, random: bool):
         self.port = port
         self.random = random
+        self.files = expand_patterns(files)
 
     @property
     def application(self) -> web.Application:
@@ -35,7 +55,7 @@ class Server:
     async def serve_files(self, req: web.BaseRequest) -> web.Response:
         """Serve all the files in sequence"""
         if self.random:
-            effective_file = self.files[random.randint(0, len(self.files) - 1)]
+            effective_file = random.choice(self.files)
         else:
             effective_file = self.files[self.idx % len(self.files)]
 
@@ -62,7 +82,6 @@ def server_cli(config_file: Path, port: int, verbose: int, random: bool):
         config = yaml.safe_load(f)
     LOG.info(config)
 
-    files = [Path(f) for f in config["files"]]
-    server = Server(files, port, random)
+    server = Server(config["files"], port, random)
 
     server.run()

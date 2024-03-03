@@ -15,6 +15,8 @@ files:
   - rpki-20230814T020527Z.json
   - rpki-20230814T030523Z.json
   - rpki-20230814T040532Z.json
+  # and supports globs
+  - *.json
 ```
 
 ### 2: Run
@@ -26,3 +28,8 @@ poetry run python -m rotate_files --port 8081
 # and randomise the files
 poetry run python -m rotate_files --random
 ```
+
+## Changelog
+
+### 2024-03:
+  * Added glob support
