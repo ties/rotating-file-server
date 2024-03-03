@@ -1,5 +1,4 @@
 import glob
-import itertools
 import logging
 import random
 from pathlib import Path
@@ -10,6 +9,7 @@ import yaml
 from aiohttp import web
 
 LOG = logging.getLogger(__name__)
+
 
 def expand_patterns(paths: Path | str) -> List[Path]:
     """Expand globs for the strings in a set of paths or strings"""
@@ -69,7 +69,12 @@ class Server:
 
 
 @click.command()
-@click.option("--config", default="config.yaml", help="Config file to use", type=click.Path(path_type=Path))
+@click.option(
+    "--config",
+    default="config.yaml",
+    help="Config file to use",
+    type=click.Path(path_type=Path),
+)
 @click.option("--port", default=8080, help="Port to bind to")
 @click.option("--port", default=8080, help="Port to bind to")
 @click.option("--random/--in-order", default=False)
